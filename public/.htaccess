@@ -1,0 +1,12 @@
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteBase /dist/
+  
+  # Si el archivo o directorio existe, servirlo
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  
+  # Si no existe, redirigir al index.html para SPA routing
+  RewriteRule . /dist/index.html [L]
+</IfModule>
+
