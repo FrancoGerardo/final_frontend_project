@@ -45,32 +45,17 @@ const UploadPage = () => {
         throw new Error(`Error ${response.status}: ${response.statusText}`);
       }
 
-      const blob = await response.blob();
-      const url = window.URL.createObjectURL(blob);
+      // Leer respuesta JSON en lugar de blob
+      const data = await response.json();
 
-      // Intentar leer el header X-Job-ID que el backend debe exponer
-      const headerJobId = response.headers.get("X-Job-ID");
-      if (!headerJobId) {
-        // Si no se pudo leer el header, informar al usuario
-        alert("No se recibió job_id. Comprueba CORS/expose_headers.");
-        console.error("Header X-Job-ID ausente: si usas CORS el backend debe exponerlo con expose_headers=[\"X-Job-ID\"]");
+      // Guardar jobId en sessionStorage desde la respuesta JSON
+      if (data.job_id) {
+        sessionStorage.setItem("currentJobId", data.job_id);
+        console.log("Video procesado exitosamente. Job ID:", data.job_id);
       } else {
-        // Guardar jobId en sessionStorage
-        sessionStorage.setItem("currentJobId", headerJobId);
+        console.error("No se recibió job_id en la respuesta");
+        alert("Error: No se recibió job_id del servidor.");
       }
-
-      // Obtener el nombre original sin extensión y agregar "_karaoke" para la descarga del video karaoke
-      const originalName = selectedFile.name.split('.').slice(0, -1).join('.');
-      const downloadName = `${originalName}_karaoke.mp4`;
-
-      const a = document.createElement("a");
-      a.href = url;
-      a.download = downloadName;
-      document.body.appendChild(a);
-      a.click();
-      a.remove();
-
-      console.log("Video procesado y descargado automáticamente");
     } catch (error: unknown) {
       console.error("Error al procesar el video:", error instanceof Error ? error.message : String(error));
       alert("Ocurrió un error al procesar el video.");
