@@ -22,5 +22,13 @@ export default defineConfig(() => {
       port: 5173,
       strictPort: false,
     },
+    preview: {
+      host: "0.0.0.0",
+      port: 3000,
+      allowedHosts: [
+        "finalfrontendproject-production.up.railway.app",
+        ".railway.app",
+      ],
+    },
   };
 });
