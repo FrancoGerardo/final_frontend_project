@@ -272,6 +272,12 @@ export const ResultsPage: React.FC<ResultsPageProps> = ({
     }
   };
 
+  const handleDownloadKaraoke = () => {
+    if (jobId) {
+      window.location.href = `${API_BASE_URL}/descargar/video_karaoke/${encodeURIComponent(jobId)}`;
+    }
+  };
+
   const handleDownloadOriginal = () => {
     if (jobId) {
       window.location.href = `${API_BASE_URL}/descargar/audio_original/${encodeURIComponent(jobId)}`;
@@ -500,6 +506,19 @@ export const ResultsPage: React.FC<ResultsPageProps> = ({
 
           {/* Botones de descarga por audio - alineados exactamente con cada card */}
           <div className="space-y-4">
+            {/* Descargar Karaoke - altura exacta de card */}
+            <div className="h-20 flex items-center">
+              <button 
+                onClick={handleDownloadKaraoke}
+                className="w-full bg-purple-600 hover:bg-purple-700 text-white py-3 px-4 rounded-lg flex items-center justify-center space-x-2 transition-colors"
+              >
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                </svg>
+                <span>Descargar Karaoke</span>
+              </button>
+            </div>
+
             {/* Descargar Audio Original - altura exacta de card */}
             <div className="h-20 flex items-center">
               <button 
